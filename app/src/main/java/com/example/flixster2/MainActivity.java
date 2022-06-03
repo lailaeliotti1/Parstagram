@@ -22,7 +22,7 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=7062cda12804704880535ec60e45027c";
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=";
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+        client.get(NOW_PLAYING_URL + getString(R.string.movieApiKey), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
