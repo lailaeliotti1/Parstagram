@@ -22,10 +22,11 @@
 
     <ImageView
         android:id="@+id/ivInsta"
-        android:layout_width="156dp"
+        android:layout_width="193dp"
         android:layout_height="46dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="133dp"
+        app:srcCompat="@drawable/nav_logo_whiteout"
         tools:srcCompat="@drawable/nav_logo_whiteout" />
 
     <ImageView
@@ -77,7 +78,7 @@
         android:layout_marginStart="18dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="18dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="80dp"
         android:text="Go To Feed" />
 
 </LinearLayout>

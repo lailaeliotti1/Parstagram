@@ -49,7 +49,6 @@ public class ComposeFragment extends Fragment {
     private Button btnCaptureImage;
     private Button btnSubmit;
     private ImageView ivPostImage;
-    private Button btnGoToFeed;
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
@@ -91,7 +90,6 @@ public class ComposeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         etDescription = view.findViewById(R.id.etDescription);
-        btnGoToFeed = view.findViewById(R.id.btnGoToFeed);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         btnLogout = view.findViewById(R.id.btnLogout);
@@ -119,14 +117,6 @@ public class ComposeFragment extends Fragment {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
 
-
-            }
-        });
-        btnGoToFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), FeedFragment.class);
-                startActivity(i);
 
             }
         });
