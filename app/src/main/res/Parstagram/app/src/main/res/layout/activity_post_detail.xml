@@ -23,7 +23,7 @@
             tools:text="rahul" />
 
         <TextView
-            android:id="@+id/tvTimestamp"
+            android:id="@+id/tvCreatedAt"
             android:layout_width="84dp"
             android:layout_height="wrap_content"
             android:text="TextView" />
