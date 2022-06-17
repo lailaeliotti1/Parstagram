@@ -63,6 +63,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private ImageView ivPost;
         private TextView tvCaption;
         private TextView tvCreatedAt;
+        private ImageView ivProfile;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +71,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             ivPost = itemView.findViewById(R.id.ivPost);
             tvCaption = itemView.findViewById(R.id.tvCaption);
             tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
+            ivProfile = itemView.findViewById(R.id.ivProfilePhoto);
         }
 
         public void bind(Post post) {
@@ -77,7 +79,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvAuthor.setText(post.getUser().getUsername());
             tvCreatedAt.setText(post.getCreatedAt().toString());
             ParseFile image = post.getImage();
+            ParseFile profileimage = ((User)post.getUser()).getProfilePhoto();
             if (image != null) {Glide.with(context).load(image.getUrl()).into(ivPost);}
+            if (profileimage != null) {Glide.with(context).load(profileimage.getUrl()).circleCrop().into(ivProfile);}
+
+
 
             ivPost.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,6 +92,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     //i.putExtra("post", Parcels.wrap(post));
                     i.putExtra("post", Parcels.wrap(post));
                     context.startActivity(i);
+                }
+            });
+            ivProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivity activity = (MainActivity) context;
+                    activity.goToProfileTab((User)post.getUser());
                 }
             });
         }

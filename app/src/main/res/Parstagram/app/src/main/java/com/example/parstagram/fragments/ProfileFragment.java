@@ -29,7 +29,7 @@ public class ProfileFragment extends BaseFragment {
     private TextView tvUsername;
     private ImageView ivProfilePhoto;
 
-    User user = (User) ParseUser.getCurrentUser();
+    public User user = (User) ParseUser.getCurrentUser();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class ProfileFragment extends BaseFragment {
             }
         });
     }
-    void displayUserInfo(){
+    public void displayUserInfo(){
         tvUsername.setText(user.getUsername());
         ParseFile profilePhoto = user.getProfilePhoto();
         if(profilePhoto != null) {
