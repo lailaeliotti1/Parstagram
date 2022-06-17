@@ -50,9 +50,10 @@ public class FeedFragment extends Fragment {
         rvFeed = view.findViewById(R.id.rvFeed);
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvFeed.setAdapter(adapter);
         // set the layout manager on the recycler view
-        rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvFeed.setLayoutManager(linearLayoutManager);
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -69,39 +70,33 @@ public class FeedFragment extends Fragment {
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-//        rvFeed.setLayoutManager(linearLayoutManager);
-//        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                // Triggered only when new data needs to be appended to the list
-//                // Add whatever code is needed to append new items to the bottom of the list
-//                loadNextDataFromApi(page);
-//            }
-//        };
-//        // Adds the scroll listener to RecyclerView
-//        rvFeed.addOnScrollListener(scrollListener);
-//        public void loadNextDataFromApi(int offset) {
-//            // Send an API request to retrieve appropriate paginated data
-//            //  --> Send the request including an offset value (i.e `page`) as a query parameter.
-//            //  --> Deserialize and construct new model objects from the API response
-//            //  --> Append the new data objects to the existing set of items inside the array of items
-//            //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
-//        }
+        rvFeed.setLayoutManager(linearLayoutManager);
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                queryPosts(allPosts.size());
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvFeed.addOnScrollListener(scrollListener);
 
 
-        queryPosts();
+
+        queryPosts(0);
     }
     private void fetchTimelineAsync(int i) {
         adapter.clear();
-        queryPosts();
+        queryPosts(0);
         swipeContainer.setRefreshing(false);
     }
 
-    private void queryPosts() {
+    private void queryPosts(int skip) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include((Post.KEY_USER));
-        query.setLimit(20);
+        query.setLimit(2);
+        query.setSkip(skip);
         query.addDescendingOrder("createdAt");
         query.findInBackground(new FindCallback<Post>() {
             @Override
