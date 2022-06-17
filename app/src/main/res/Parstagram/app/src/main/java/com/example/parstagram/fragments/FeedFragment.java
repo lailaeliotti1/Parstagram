@@ -1,23 +1,27 @@
-package com.example.parstagram;
+package com.example.parstagram.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.parstagram.Post;
+import com.example.parstagram.PostsAdapter;
+import com.example.parstagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedFragment extends Fragment {
     private RecyclerView rvFeed;
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
@@ -25,17 +29,27 @@ public class FeedActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        // Defines the xml file for the fragment
+        return inflater.inflate(R.layout.fragment_feed, parent, false);
+    }
 
-        rvFeed = findViewById(R.id.rvFeed);
+    // This event is triggered soon after onCreateView().
+    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // Setup any handles to view objects here
+        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        super.onCreate(savedInstanceState);
+        //setContentView(R.layout.fragment_feed);
+
+        rvFeed = view.findViewById(R.id.rvFeed);
         allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(this, allPosts);
+        adapter = new PostsAdapter(getContext(), allPosts);
         rvFeed.setAdapter(adapter);
         // set the layout manager on the recycler view
-        rvFeed.setLayoutManager(new LinearLayoutManager(this));
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -47,14 +61,13 @@ public class FeedActivity extends AppCompatActivity {
             }
 
 
-    });
-    swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light);
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
-    queryPosts();
+        queryPosts();
     }
-
     private void fetchTimelineAsync(int i) {
         adapter.clear();
         queryPosts();
