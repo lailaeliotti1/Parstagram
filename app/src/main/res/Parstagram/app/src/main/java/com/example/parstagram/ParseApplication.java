@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 public class ParseApplication  extends Application {
     @Override
     public void onCreate() {
+        ParseObject.registerSubclass(User.class);
         super.onCreate();
         ParseObject.registerSubclass(Post.class);
         Parse.initialize(new Parse.Configuration.Builder(this)

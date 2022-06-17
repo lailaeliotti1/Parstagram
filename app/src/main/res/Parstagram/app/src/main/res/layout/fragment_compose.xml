@@ -71,14 +71,4 @@
         android:layout_marginBottom="16dp"
         android:text="Submit" />
 
-    <Button
-        android:id="@+id/btnGoToFeed"
-        android:layout_width="375dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="80dp"
-        android:text="Go To Feed" />
-
 </LinearLayout>
